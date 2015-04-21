@@ -3,11 +3,13 @@
 Get info from yelp
 """
 import json
+import os
+import oauth2
 import pprint
 import urllib
 import urllib2
 
-import oauth2
+
 
 
 API_HOST = 'api.yelp.com'
@@ -16,11 +18,17 @@ DEFAULT_LOCATION = 'San Francisco, CA'
 SEARCH_LIMIT = 3
 SEARCH_PATH = '/v2/search/'
 BUSINESS_PATH = '/v2/business/'
+DEFAULT_ENV_VAR = 'notfound'
 
 CONSUMER_KEY = '5mS4Kybbj_FCmpMpib1mgA'
 CONSUMER_SECRET = 'vO1241dzVOu6IYPQdTl2jYvdfd4'
 TOKEN = 'XZa_sIFpyZcn0ynXVtgv3wCLSuhaxNNx'
 TOKEN_SECRET = 'tvubnzdXZDun-ospypixsIy4Jwc'
+
+CONSUMER_KEY = os.getenv('YELP_CONSUMER_KEY', DEFAULT_ENV_VAR)
+CONSUMER_SECRET = os.getenv('YELP_CONSUMER_SECRET', DEFAULT_ENV_VAR)
+TOKEN = os.getenv('YELP_TOKEN', DEFAULT_ENV_VAR)
+TOKEN_SECRET = os.getenv('YELP_TOKEN_SECRET', DEFAULT_ENV_VAR)
 
 
 def request(host, path, url_params=None):
