@@ -1,2 +1,3 @@
 oauth2==1.0
 httplib2==0.9
+phabricator==0.4.0

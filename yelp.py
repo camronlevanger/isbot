@@ -6,29 +6,23 @@ import json
 import os
 import oauth2
 import pprint
+import random
 import urllib
 import urllib2
 
 
-
-
 API_HOST = 'api.yelp.com'
 DEFAULT_TERM = 'dinner'
-DEFAULT_LOCATION = 'San Francisco, CA'
-SEARCH_LIMIT = 3
+DEFAULT_LOCATION = 'Provo, UT'
+SEARCH_LIMIT = 10
 SEARCH_PATH = '/v2/search/'
 BUSINESS_PATH = '/v2/business/'
 DEFAULT_ENV_VAR = 'notfound'
 
-CONSUMER_KEY = '5mS4Kybbj_FCmpMpib1mgA'
-CONSUMER_SECRET = 'vO1241dzVOu6IYPQdTl2jYvdfd4'
-TOKEN = 'XZa_sIFpyZcn0ynXVtgv3wCLSuhaxNNx'
-TOKEN_SECRET = 'tvubnzdXZDun-ospypixsIy4Jwc'
-
-CONSUMER_KEY = os.getenv('YELP_CONSUMER_KEY', DEFAULT_ENV_VAR)
-CONSUMER_SECRET = os.getenv('YELP_CONSUMER_SECRET', DEFAULT_ENV_VAR)
-TOKEN = os.getenv('YELP_TOKEN', DEFAULT_ENV_VAR)
-TOKEN_SECRET = os.getenv('YELP_TOKEN_SECRET', DEFAULT_ENV_VAR)
+CONSUMER_KEY = str(os.getenv('YELP_CONSUMER_KEY', DEFAULT_ENV_VAR))
+CONSUMER_SECRET = str(os.getenv('YELP_CONSUMER_SECRET', DEFAULT_ENV_VAR))
+TOKEN = str(os.getenv('YELP_TOKEN', DEFAULT_ENV_VAR))
+TOKEN_SECRET = str(os.getenv('YELP_TOKEN_SECRET', DEFAULT_ENV_VAR))
 
 
 def request(host, path, url_params=None):
@@ -106,15 +100,23 @@ def query_api(term, location):
         term (str): The search term to query.
         location (str): The location of the business to query.
     """
+
+    print CONSUMER_KEY
+    print CONSUMER_SECRET
+    print TOKEN
+    print TOKEN_SECRET
+
     response = search(term, location)
 
     businesses = response.get('businesses')
+    print businesses
 
     if not businesses:
         print u'No businesses for {0} in {1} found.'.format(term, location)
         return u'No businesses for {0} in {1} found.'.format(term, location)
 
-    business_id = businesses[0]['id']
+    business = random.choice(businesses)
+    business_id = business['id']
 
     print u'{0} businesses found, querying business info for the top result "{1}" ...'.format(
         len(businesses),
